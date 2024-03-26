@@ -1,1 +1,1 @@
-hjdvjvj
+print("or")
