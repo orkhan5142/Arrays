@@ -1,0 +1,133 @@
+using System;
+using System.Collections.Generic;
+
+namespace PhonebookApp
+{
+    class Program
+    {
+        static Dictionary<string, string> phonebook = new Dictionary<string, string>();
+
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                Console.WriteLine("\nPhonebook Application");
+                Console.WriteLine("1. Add a New Contact");
+                Console.WriteLine("2. Search for a Contact");
+                Console.WriteLine("3. Update a Contact's Phone Number");
+                Console.WriteLine("4. Delete a Contact");
+                Console.WriteLine("5. List All Contacts");
+                Console.WriteLine("6. Exit");
+                Console.Write("Select an option (1-6): ");
+                
+                string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        AddContact();
+                        break;
+                    case "2":
+                        SearchContact();
+                        break;
+                    case "3":
+                        UpdateContact();
+                        break;
+                    case "4":
+                        DeleteContact();
+                        break;
+                    case "5":
+                        ListAllContacts();
+                        break;
+                    case "6":
+                        return;
+                    default:
+                        Console.WriteLine("Invalid option. Please select a valid choice.");
+                        break;
+                }
+            }
+        }
+
+        static void AddContact()
+        {
+            Console.Write("Enter contact name: ");
+            string name = Console.ReadLine();
+
+            Console.Write("Enter phone number: ");
+            string phone = Console.ReadLine();
+
+            if (!phonebook.ContainsKey(name))
+            {
+                phonebook.Add(name, phone);
+                Console.WriteLine("Contact added successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Contact with this name already exists.");
+            }
+        }
+
+        static void SearchContact()
+        {
+            Console.Write("Enter contact name to search: ");
+            string name = Console.ReadLine();
+
+            if (phonebook.TryGetValue(name, out string phone))
+            {
+                Console.WriteLine($"Phone number for {name}: {phone}");
+            }
+            else
+            {
+                Console.WriteLine("Contact not found.");
+            }
+        }
+
+        static void UpdateContact()
+        {
+            Console.Write("Enter contact name to update: ");
+            string name = Console.ReadLine();
+
+            if (phonebook.ContainsKey(name))
+            {
+                Console.Write("Enter new phone number: ");
+                string newPhone = Console.ReadLine();
+                phonebook[name] = newPhone;
+                Console.WriteLine("Contact updated successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Contact not found.");
+            }
+        }
+
+        static void DeleteContact()
+        {
+            Console.Write("Enter contact name to delete: ");
+            string name = Console.ReadLine();
+
+            if (phonebook.Remove(name))
+            {
+                Console.WriteLine("Contact deleted successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Contact not found.");
+            }
+        }
+
+        static void ListAllContacts()
+        {
+            if (phonebook.Count > 0)
+            {
+                Console.WriteLine("\nAll Contacts:");
+                foreach (var contact in phonebook)
+                {
+                    Console.WriteLine($"Name: {contact.Key}, Phone: {contact.Value}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No contacts to display.");
+            }
+        }
+    }
+}
